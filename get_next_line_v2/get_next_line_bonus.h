@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stanislav <stanislav@student.42.fr>        +#+  +:+       +#+        */
+/*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 23:26:24 by stanislav         #+#    #+#             */
-/*   Updated: 2021/10/25 23:26:24 by stanislav        ###   ########.fr       */
+/*   Created: 2022/01/20 20:13:45 by stanislav         #+#    #+#             */
+/*   Updated: 2022/01/20 20:13:46 by stanislav        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,48 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 4095
+#  define BUFFER_SIZE 4096
 # endif
 
-# if (BUFFER_SIZE) <= 0
-#  error Invalid buffer of (BUFFER_SIZE) size
+# if BUFFER_SIZE < 1
+#  error Invalid value (BUFFER_SIZE) for the size of a buffer
 # endif
 
-# define CACHE_SIZE 255
+// LBS == LINE_BLOCK_SIZE
+# ifndef LBS
+#  define LBS 256
+# endif
 
-// bp/cp - current position in the buffer/cache arrays.
-// nbs - number of bytes read from fd into the buffer.
+# if LBS < 1
+#  error Invalid value (LBS) for the block size of a line
+# endif
+
 typedef struct s_fdb
 {
 	int				fd;
-	char			buf[BUFFER_SIZE + 1];
-	size_t			bp;
-	char			cache[CACHE_SIZE + 1];
-	size_t			cp;
-	ssize_t			nbs;
+	char			buf[BUFFER_SIZE];
+	ssize_t			bpos;
+	ssize_t			nbytes;
+	bool			error;
+	bool			eof;
 	struct s_fdb	*next;
 }	t_fdb;
 
+typedef struct s_line
+{
+	char	*buf;
+	size_t	len;
+	size_t	lpos;
+	bool	error;
+	bool	endl;
+}	t_line;
+
 char	*get_next_line(int fd);
 
-char	*gnl_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-size_t	ft_strlen(const char *s);
-void	*ft_calloc(size_t nmemb, size_t size);
-void	*ft_memset(void *s, int c, size_t n);
+t_line	*gnl_init_line(void);
+char	gnl_pop_char(t_fdb *from);
+void	gnl_push_char(t_line *to, char chr);
+void	*gnl_remalloc(void *ptr, size_t old, size_t new);
+void	gnl_free_line(t_line *line);
 
 #endif
