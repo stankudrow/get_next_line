@@ -6,7 +6,7 @@
 /*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 20:14:14 by stanislav         #+#    #+#             */
-/*   Updated: 2022/01/20 20:14:15 by stanislav        ###   ########.fr       */
+/*   Updated: 2022/02/19 13:32:58 by stanislav        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_fdb	*create_fdb(int fd)
 {
 	t_fdb	*new;
 
-	new = (t_fdb *)malloc(sizeof(t_fdb));
+	new = malloc(sizeof(t_fdb));
 	if (!new)
 		return (NULL);
 	new->fd = fd;
