@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 20:14:14 by stanislav         #+#    #+#             */
-/*   Updated: 2022/02/19 13:32:58 by stanislav        ###   ########.fr       */
+/*   Created: 2022/03/08 22:56:43 by stanislav         #+#    #+#             */
+/*   Updated: 2022/03/08 22:56:43 by stanislav        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	release_fdb(t_fdb *fdb, t_fdb **fdblst)
 				prev->next = curr->next;
 			else
 				*fdblst = curr->next;
+			free(curr->buf);
 			free(curr);
 			return ;
 		}
@@ -70,15 +71,20 @@ static t_fdb	*create_fdb(int fd)
 	new = malloc(sizeof(t_fdb));
 	if (!new)
 		return (NULL);
-	new->fd = fd;
-	new->nbytes = read(new->fd, new->buf, BUFFER_SIZE);
-	if (new->nbytes > 0)
+	new->buf = malloc(BUFFER_SIZE);
+	if (new->buf)
 	{
-		new->bpos = 0;
-		new->next = NULL;
-		new->error = false;
-		new->eof = false;
-		return (new);
+		new->fd = fd;
+		new->nbytes = read(new->fd, new->buf, BUFFER_SIZE);
+		if (new->nbytes > 0)
+		{
+			new->bpos = 0;
+			new->next = NULL;
+			new->error = false;
+			new->eof = false;
+			return (new);
+		}
+		free(new->buf);
 	}
 	free(new);
 	return (NULL);

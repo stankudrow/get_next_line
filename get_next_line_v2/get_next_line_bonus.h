@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 20:13:45 by stanislav         #+#    #+#             */
-/*   Updated: 2022/01/20 20:13:46 by stanislav        ###   ########.fr       */
+/*   Created: 2022/03/08 22:56:52 by stanislav         #+#    #+#             */
+/*   Updated: 2022/03/08 22:56:52 by stanislav        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 typedef struct s_fdb
 {
 	int				fd;
-	char			buf[BUFFER_SIZE];
+	char			*buf;
 	ssize_t			bpos;
 	ssize_t			nbytes;
 	bool			error;
