@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getline.h                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/22 13:14:20 by stanislav         #+#    #+#             */
-/*   Updated: 2022/06/22 13:14:21 by stanislav        ###   ########.fr       */
+/*   Created: 2022/06/22 13:21:06 by stanislav         #+#    #+#             */
+/*   Updated: 2022/09/15 11:14:32 by stanislav        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GETLINE_H
-# define FT_GETLINE_H
+#include "ft_getline.h"
 
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
+int	main(void)
+{
+	char	*str;
+	ssize_t	nbytes;
+	size_t	bufsiz;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
-# endif
-
-# if BUFFER_SIZE < 1
-#  error Invalid value (BUFFER_SIZE) for the size of a buffer
-# endif
-
-ssize_t	ft_getdelim(char **line, size_t *linesize, int delim, FILE *fstream);
-ssize_t	ft_getline(char **line, size_t *linesize, FILE *stream);
-
-#endif
+	str = NULL;
+	bufsiz = 0;
+	fputs("stdin: ", stdout);
+	nbytes = ft_getline(&str, &bufsiz, stdin);
+	if (nbytes < 0)
+		fprintf(stderr, "stderr: %d error occured.\n", errno);
+	else
+		fprintf(stdout, "\nstdout: %s\n{%ld bytes | len = %zu}\n", \
+				str, nbytes, bufsiz);
+	free(str);
+	return (0);
+}
