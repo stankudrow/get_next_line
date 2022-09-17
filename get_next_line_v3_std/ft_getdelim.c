@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getdelim.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stanislav <student.21-school.ru>           +#+  +:+       +#+        */
+/*   By: mhorton <mhorton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:14:12 by stanislav         #+#    #+#             */
-/*   Updated: 2022/06/22 13:14:13 by stanislav        ###   ########.fr       */
+/*   Updated: 2022/09/17 16:31:40 by mhorton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,13 @@ ssize_t	ft_getdelim(char **line, size_t *linesize, int delim, FILE *stream)
 		if (realloc_line(line, linesize, &current, &block_end) < 0)
 			return (-1);
 		chr = fgetc(stream);
-		if (chr < 0)
+		if ((chr < 0) || (chr == delim))
 		{
 			*current = '\0';
-			if (feof(stream))
+			if (feof(stream) || (chr == delim))
 				return (current - *line);
 			return (errno);
 		}
 		*current++ = chr;
-		if (chr == delim)
-		{
-			*current = '\0';
-			return (current - *line);
-		}
 	}
 }
