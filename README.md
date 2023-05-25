@@ -1,6 +1,8 @@
 # get_next_line
 
-Проект первого круга основного обучения (42cursus) школы 42 (школы 21 в России). Описание задания изложено в документе ***subject***. Проверено по `norminette` версии 3.3.51.
+**Reading a line on a fd is way too tedious.**
+
+Linted according to the `norminette` v3.3.51 rules.
 
 ## GNL versions
 
@@ -8,32 +10,26 @@
 
 ### GNL_v1
 
-Первый извод GNL, который и был сдан на 125.
+The first version of GNL, score: 125.
 
 ### GNL_v2
 
-Переработка GNL_v1. Проверен [gnlTester](#testers)'ом, использовался в [libftx] в дальнейших проектах.
+A refinment of the GNL v1. Tested with [gnlTester](#testers). Used in the [libftx] project.
 
 ### GNL_v3_std
 
-Разбор внутренностей встроенной функции `getline`. Это "решение" должно стать основой для встраивания в [libftx] следующих функций:
+The result of `getline` analysis. Resulting in the following functions suitable for the [libftx]:
 
 * `ssize_t ft_getline(char **lineptr, size_t *n, FILE *stream);`
 
 * `ssize_t ft_getdelim(char ** lineptr, size_t *n, int delim, FILE *stream);`
 
-Причины, по которым стоит встраивать эти функции:
+"Yes" answers why to embed the aforementioned functions:
 
-1. обычный `get_next_line` возвращает **NULL** как при окончании потока, так и при ошибках - это однообразное поведение при двух различных обстоятельствах;
+1. the ordinary `get_next_line` returns **NULL** both when the end of stream is reached and if an error occured - this is misleading, therefore error-prone;
 
-2. код возврата необходим для проверки результата функции: или неотрицательное число - количество считанных байт, или же код ошибки;
-
-### GNL_v4
-
-См. проект [libftx]: функции зависят от `realloc`/`ft_realloc`, есть тесная связка с библиотекой.
+2. the return/status code is a good way to take: either a nonnegative number of bytes consumed or a negative error code - this strategy is cleaner than one immanent to the classic `get-next-line` contract.
 
 ## Testers
-
-**Внимание**: тестеры пишут люди, поэтому в них тоже могут быть ошибки.
 
 * [Tripouille/gnlTester](https://github.com/Tripouille/gnlTester)
